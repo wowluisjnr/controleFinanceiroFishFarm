@@ -21,4 +21,13 @@ module.exports = app => {
         .put(admin(app.api.user.save))
         .delete(admin(app.api.user.remove))
 
+    app.route('/clientes')
+        .all(app.config.passport.authenticate())
+        .get(app.api.clientes.get)
+        .post(app.api.clientes.save)
+
+    app.route('/clientes/:id')
+        .all(app.config.passport.authenticate())
+        .post(app.api.clientes.save)
+
 }
