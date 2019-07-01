@@ -1,8 +1,8 @@
 <template>
     <div>
       <b-navbar fixed toggleable="lg" type="dark" variant="info">
-        <b-navbar-brand href="/">
-          <img src="../assets/logo32px.png" class="d-inline-block align-top" alt="Kitten">
+        <b-navbar-brand href="/viveiros">
+          <img src="../../assets/logo32px.png" class="d-inline-block align-top" alt="Kitten">
           FishFarm 
         </b-navbar-brand>
         
@@ -10,7 +10,7 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item href="#">Link</b-nav-item>
+            <b-nav-item href="/clientes">Clientes</b-nav-item>
             <b-nav-item href="#">Disabled</b-nav-item>
           </b-navbar-nav>
 
@@ -44,7 +44,7 @@ import { userKey } from '@/global'
 import {mapState} from 'vuex'
 
 export default {
-    name: 'NotHelloWorld',
+    name: 'Header',
     computed: mapState(['user']),
     methods:{
     logout(){

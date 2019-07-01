@@ -40,7 +40,7 @@ export default {
                 .then(res => {
                     this.$store.commit('setUser', res.data)
                     localStorage.setItem(userKey, JSON.stringify(res.data))//local que o browser armazena dados. mesmo apos fechar
-                    this.$router.push({ path: '/' })
+                    this.$router.push({ path: '/viveiros' })
                 })
                 .catch(showError)
         },
@@ -67,7 +67,7 @@ export default {
 
     .auth-modal {
         background-color: #FFF;
-        width: 350px;
+        width: 420px;
         padding: 35px;
         box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
 

@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 import axios from 'axios' //
 
 import HelloWorld from '@/components/HelloWorld'
-import NotHelloWorld from '@/components/NotHelloWorld'
+import Viveiros from '@/components/producao/Viveiros'
+import Clientes from '@/components/financeiro/Clientes'
 import Auth from '@/components/auth/Auth'
 
 import { userKey, baseApiUrl } from '@/global'
@@ -11,9 +12,13 @@ import { userKey, baseApiUrl } from '@/global'
 Vue.use(VueRouter)
 
 const routes = [{
-    name: 'NotHelloWorld',
-    path: '/',
-    component: NotHelloWorld,
+    name: 'Viveiros',
+    path: '/viveiros',
+    component: Viveiros,
+}, {
+    name: 'Clientes',
+    path: '/clientes',
+    component: Clientes,
 }, {
     name: 'HelloWord',
     path: '/adm',
