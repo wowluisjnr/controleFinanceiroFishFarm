@@ -28,6 +28,6 @@ module.exports = app => {
 
     app.route('/clientes/:id')
         .all(app.config.passport.authenticate())
-        .post(app.api.clientes.save)
+        .put(app.api.clientes.save)
 
 }
