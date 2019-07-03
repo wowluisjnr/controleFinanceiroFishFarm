@@ -13,4 +13,9 @@ export function showError(e) {
     }
 }
 
-export default { baseApiUrl, showError, userKey }
+export function dateFormat(date){
+    const dateReturn = date.split('-')
+    return `${dateReturn[2].substring(2, 0)}/${dateReturn[1]}/${dateReturn[0]}`
+}
+
+export default { baseApiUrl, showError, userKey, dateFormat }

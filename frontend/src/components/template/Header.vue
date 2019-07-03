@@ -11,7 +11,7 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item href="/clientes">Clientes</b-nav-item>
-            <b-nav-item href="#">Disabled</b-nav-item>
+            <b-nav-item href="/vendas">Vendas</b-nav-item>
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->

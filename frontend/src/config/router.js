@@ -5,6 +5,7 @@ import axios from 'axios' //
 import HelloWorld from '@/components/HelloWorld'
 import Viveiros from '@/components/producao/Viveiros'
 import Clientes from '@/components/financeiro/Clientes'
+import Vendas from '@/components/financeiro/Vendas'
 import Auth from '@/components/auth/Auth'
 
 import { userKey, baseApiUrl } from '@/global'
@@ -19,6 +20,10 @@ const routes = [{
     name: 'Clientes',
     path: '/clientes',
     component: Clientes,
+}, {
+    name: 'Vendas',
+    path: '/vendas',
+    component: Vendas,
 }, {
     name: 'HelloWord',
     path: '/adm',
