@@ -8,6 +8,8 @@ import Clientes from '@/components/financeiro/Clientes'
 import Vendas from '@/components/financeiro/Vendas'
 import Auth from '@/components/auth/Auth'
 
+import Teste from '@/components/NotHelloWorld'
+
 import { userKey, baseApiUrl } from '@/global'
 
 Vue.use(VueRouter)
@@ -30,6 +32,10 @@ const routes = [{
     component: HelloWorld,
     meta: { requiresAdmin: true }
 }, {
+    name: 'NotHelloWord',
+    path: '/',
+    component: Teste    
+},{
     name: 'auth',
     path: '/auth',
     component: Auth

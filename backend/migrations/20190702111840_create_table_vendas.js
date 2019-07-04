@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
         table.boolean('pago').defaultTo(false)
         table.date('dataPagamento')
         table.decimal('pagamentoParcial').defaultTo(0)
-
+        table.integer('quantidadePeixe').notNull()
 
         table.integer('clienteId').references('id')
             .inTable('clientes').notNull()

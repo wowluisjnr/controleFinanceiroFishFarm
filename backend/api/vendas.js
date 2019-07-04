@@ -50,20 +50,18 @@ module.exports = app =>{
         const userId = req.user.id 
         const periodo = req.params
         
-        //console.log(periodo.mes)
-        if(periodo.mes<1){
-            periodo.mesIni = 1
-            periodo.mes = 12
-        } else{
-            periodo.mesIni = periodo.mes
-        }
-        periodo.dia = new Date(periodo.ano, periodo.mes, 0).getDate()
+        if(periodo.mesFinal == 'undefined' || !periodo.mesFinal || periodo.mesFinal =='null'){ 
+            periodo.mesFinal = periodo.mes
+            periodo.anoFinal = periodo.ano
+            periodo.diaFinal = new Date(periodo.ano, periodo.mes, 0).getDate()
+        } 
+        
         //console.log(periodo)
 
         app.db('vendas').whereExists(function() {
             this.select('*').from('clientes').whereRaw('vendas."clienteId" = clientes.id and clientes."userId" = ?', [userId] )
         })
-        .whereBetween('dataVenda',[`${periodo.ano}-${periodo.mesIni}-01`,`${periodo.ano}-${periodo.mes}-${periodo.dia}`])
+        .whereBetween('dataVenda',[`${periodo.ano}-${periodo.mes}-${periodo.dia}`,`${periodo.anoFinal}-${periodo.mesFinal}-${periodo.diaFinal}`])
         .orderBy('dataVenda', 'desc')
         .then(vendas => res.json(vendas))
         .catch(err => res.status(500).send(err))

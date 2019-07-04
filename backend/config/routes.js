@@ -35,7 +35,7 @@ module.exports = app => {
         .get(app.api.vendas.get)
     //     .post(app.api.vendas.save)
 
-    app.route('/vendas/:mes/:ano')
+    app.route('/vendas/:dia/:mes/:ano/:diaFinal/:mesFinal/:anoFinal')
         .all(app.config.passport.authenticate())
         .get(app.api.vendas.getByMonth)
     //    .put(app.api.vendas.save)
