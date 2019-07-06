@@ -2,35 +2,45 @@ module.exports = app =>{
 
     const { existsOrError, notExistsOrError } = app.api.validation
 
-    const save = async (req, res) =>{
-        const cliente = req.body
-        cliente.userId = req.user.id
-        if(req.params.id) cliente.id = req.params.id
+    const save = (req, res) =>{
+        console.log(req.body)
+
+        let venda = {}
+        if(!req.body.pago){
+            venda.id = req.body.id
+            venda.valor = req.body.valor
+            venda.lote = req.body.lote
+            venda.peso = req.body.peso
+            venda.quantidadePeixe =  req.body.quantidadePeixe
+            venda.dataVenda =  req.body.dataVenda
+            venda.pago = req.body.pago
+            venda.clienteId =  req.body.clienteId
+        }
+        else{
+            venda = { ...req.body}
+        }
 
         try{
-            existsOrError(cliente.nome, 'Nome do cliente não informado')
-            existsOrError(cliente.userId, 'Problemas na identificação do Usuário! Se percistir no erro contate o suporte.')
-            
-            const clienteFromDB = await app.db('clientes')
-                .where({ nome: cliente.nome }).first()
-            if(!cliente.id) {
-                notExistsOrError(clienteFromDB, `O Cliente "${cliente.nome}" já esta cadastrado`)
-            }
-
+            existsOrError(venda.valor, 'Valor da venda não informado')
+            existsOrError(venda.lote, 'Lote do pescado não informado.')
+            existsOrError(venda.peso, 'Peso do pescado não informado.')
+            existsOrError(venda.quantidadePeixe, 'Quantidade de peixes vendidas não informada.')
+            existsOrError(venda.dataVenda, 'Data da venda não informada.')
+            existsOrError(venda.clienteId, 'Cliente não informado.')           
         } catch(msg) {
             return res.status(400).send(msg)
         }        
 
-        if(cliente.id){
-            app.db('clientes')
-                .update(cliente)
-                .where({id: cliente.id})
+        if(venda.id){
+            app.db('vendas')
+                .update(venda)
+                .where({id: venda.id})
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
             
         } else {
-            app.db('clientes')
-                .insert(cliente)
+            app.db('vendas')
+                .insert(venda)
                 .then(_ => res.status(204).send())
                 .catch( err => res.status(500).send(err))
         }

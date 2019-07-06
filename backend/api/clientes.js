@@ -12,7 +12,7 @@ module.exports = app =>{
             existsOrError(cliente.userId, 'Problemas na identificação do Usuário! Se percistir no erro contate o suporte.')
             
             const clienteFromDB = await app.db('clientes')
-                .where({ nome: cliente.nome }).first()
+                .where({ nome: cliente.nome, userId: cliente.userId }).first()
             if(!cliente.id) {
                 notExistsOrError(clienteFromDB, `O Cliente "${cliente.nome}" já esta cadastrado`)
             }

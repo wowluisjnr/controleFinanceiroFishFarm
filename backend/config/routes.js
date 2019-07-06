@@ -33,7 +33,11 @@ module.exports = app => {
     app.route('/vendas')
         .all(app.config.passport.authenticate())
         .get(app.api.vendas.get)
-    //     .post(app.api.vendas.save)
+        .post(app.api.vendas.save)
+    
+    app.route('/vendas/:id')
+        .all(app.config.passport.authenticate())
+        .put(app.api.vendas.save)
 
     app.route('/vendas/:dia/:mes/:ano/:diaFinal/:mesFinal/:anoFinal')
         .all(app.config.passport.authenticate())

@@ -18,4 +18,9 @@ export function dateFormat(date){
     return `${dateReturn[2].substring(2, 0)}/${dateReturn[1]}/${dateReturn[0]}`
 }
 
-export default { baseApiUrl, showError, userKey, dateFormat }
+export function dateDefaltValidation(date){
+    const dateReturn = date.split('-')
+    return `${dateReturn[0]}-${dateReturn[1]}-${dateReturn[2].substring(2, 0)}`
+}
+
+export default { baseApiUrl, showError, userKey, dateFormat, dateDefaltValidation }
