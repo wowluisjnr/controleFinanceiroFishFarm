@@ -3,7 +3,6 @@ module.exports = app =>{
     const { existsOrError, notExistsOrError } = app.api.validation
 
     const save = (req, res) =>{
-        console.log(req.body)
 
         let venda = {}
         if(!req.body.pago){
@@ -15,6 +14,8 @@ module.exports = app =>{
             venda.dataVenda =  req.body.dataVenda
             venda.pago = req.body.pago
             venda.clienteId =  req.body.clienteId
+            venda.pagamentoParcial = req.body.pagamentoParcial
+            venda.dataPagamento = null
         }
         else{
             venda = { ...req.body}
@@ -29,8 +30,8 @@ module.exports = app =>{
             existsOrError(venda.clienteId, 'Cliente não informado.')           
         } catch(msg) {
             return res.status(400).send(msg)
-        }        
-
+        }     
+        
         if(venda.id){
             app.db('vendas')
                 .update(venda)

@@ -51,6 +51,9 @@
             </div>
 
             <b-table small striped :items="vendas" :fields="fields" :busy="loadTable">
+                <template slot="cliente" slot-scope="data">
+                    {{ buscarCliente(data.item.clienteId).nome }}                
+                </template>                
                 <template slot="dataVenda" slot-scope="data">
                     {{ changeShowDate(data.item.dataVenda) }}                
                 </template>
@@ -107,7 +110,16 @@
                             :value="true"
                             :unchecked-value="false">
                                 Está pago
-                        </b-form-checkbox>                           
+                        </b-form-checkbox>
+
+                        <b-form-checkbox v-if="!venda.pago" class="pt-2"  id="checkbox-pagamento-parcial" v-model="showPagamentoParcial"                    
+                            :value="true"
+                            :unchecked-value="false">
+                                Efetuar pagamento parcial
+                        </b-form-checkbox> 
+                        <b-form-group v-if="showPagamentoParcial && !venda.pago" id="input-parcial" label="Insira o valor:" label-for="parcial" invalid-feedback="Valor é obrigatorio" >                
+                            <b-form-input ref="parcial" id="parcial" type="number" step="0.01" v-model="venda.pagamentoParcial"  required></b-form-input>
+                        </b-form-group>                           
                                               
                     </b-col>
                     <b-col md="6">
@@ -190,6 +202,7 @@ export default {
           quantidadeState:null,  
           dataPagamentoState:null,
           clienteIdState:null,
+        showPagamentoParcial:false,
         dataFinalNula:true,
         showModalNovo:false,
         showModalPeriodo:false,
@@ -206,6 +219,7 @@ export default {
             { key: 'lote', label:'Lote', sortable: true },
             { key: 'peso', label:'Peso' },
             { key: 'quantidadePeixe', label: 'Quantidade'},
+            { key: 'cliente', label: 'Cliente'},
             { key: 'valor', label:'Valor' },
             { key: 'dataVenda', label:'Data da venda', sortable: true },
             { key: 'pago', label:'Efetivado', sortable: true }, 
@@ -223,10 +237,7 @@ export default {
       }
     },
     computed: {
-        // validation(){   
-        //     if(this.formSubmit) return this.cliente.nome ? true : false         
-        //     return this.cliente.nome ? true : null
-        // }
+        
     },
     methods:{
         
@@ -257,16 +268,15 @@ export default {
                 this.totalVendas = res.data.reduce((total, obj) =>{                    
                     return total + parseFloat(obj.valor)
                 }, 0)
-                this.totalVendasRecebidas = res.data.reduce((total, obj) =>{                    
-                    return obj.pago ? total + parseFloat(obj.valor) : total + 0
+                this.totalVendasRecebidas = res.data.reduce((total, obj) =>{ 
+                    return obj.pago || obj.pagamentoParcial ? total + (!obj.pago ? parseFloat(obj.pagamentoParcial) : parseFloat(obj.valor)) : total + 0
                 }, 0)
-                this.totalVendasNaoRecebidas = res.data.reduce((total, obj) =>{                    
-                    return !obj.pago ? total + parseFloat(obj.valor) : total + 0
-                }, 0)
+                this.totalVendasNaoRecebidas = this.totalVendas - this.totalVendasRecebidas
             }).catch(showError)            
         },
         carregarVenda(venda){
             this.venda = { ...venda}
+            this.showPagamentoParcial = parseInt(venda.pagamentoParcial) ? true : false
             this.carregarData()
             this.showModalNovo = true
         },
@@ -279,8 +289,16 @@ export default {
                 })
             }).catch(showError)
         }, 
+        buscarCliente(id){
+            return this.clientes.find(cliente => {
+                if(cliente.id == id){
+                    return true
+                }
+            })
+        },
         resetModal(){
             this.venda ={}
+            
              this.carregarData()
             
             this.valorState=null
