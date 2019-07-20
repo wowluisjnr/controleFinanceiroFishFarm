@@ -426,9 +426,9 @@ export default {
         }
 
     },
-    mounted(){
-        this.carregarVendas()
+    mounted(){        
         this.carregarClientes()
+        this.carregarVendas()
     }
 
 }
